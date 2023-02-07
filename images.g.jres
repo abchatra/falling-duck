@@ -1,0 +1,27 @@
+{
+    "image1": {
+        "data": "hwQQABAAAAAAAAAAu8sMAAAAAAC93csAAAAAAN3c3QwAAAAAXcXdywAAsLtb1dzNAAC7VVtV3M0AsFtVvVXbzQCw1dFVvdXNALAV/1VVVc2wu/W/RVVVxVu8VdVEVVXFtbBV3URVVbULANtERFVVuwAA8ExEW9ULAAAAALSwuwAAAAAACwAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "duck1"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAAAAsMsMAAAAsAuw3csAAACwvdvd3QwAALBVvdzdywAAsFtVzd3NAAC7tVXF3c0AsFtVW7XdzQCwVdXRW9XNALBVFf9VVc0Au1X1v1RVxQC1VVVFVFXFALVV1URUVbUAC1tFRFRVuwAAsPtMVNULAAAAALC0uwAAAAAAAAsAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "duck2"
+    },
+    "image3": {
+        "data": "hwQQABAAAAAAAAAAu8sMAAAAAAC93csAAAAAAN3c3QwAAAAAXcXdywAAsLtb1dzNAAC7VVtV3M0AsFtVvVXbzQCw1dFVvdXNALAV/1VVVc2wu/W/RVVVxVu8VdVEVVXFtbBV3URVVbULANtERFVVuwAA8ExEW9ULAAAAALSwuwAAAAAACwAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "duck3"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAAAAMsMCwAAAACw3bsLAAAAANvdWwwAAACw3b1dzAAAu9vdW7XMALBbVdVbzc0Au1VVVdvczQBbHV1Vxd3NAFvxX1VVVc2wW/9LVVVVxVtb1URVVVXFtVvdRFVVVbULsEREVVVVuwAATLRbVdULAABAC7C7uwAAALAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "duck4"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}

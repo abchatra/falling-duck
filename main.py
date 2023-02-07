@@ -1,84 +1,45 @@
-class ActionKind {
-    static Walking: number
-    private ___Walking_is_set: boolean
-    private ___Walking: number
-    get Walking(): number {
-        return this.___Walking_is_set ? this.___Walking : ActionKind.Walking
-    }
-    set Walking(value: number) {
-        this.___Walking_is_set = true
-        this.___Walking = value
-    }
-    
-    static Idle: number
-    private ___Idle_is_set: boolean
-    private ___Idle: number
-    get Idle(): number {
-        return this.___Idle_is_set ? this.___Idle : ActionKind.Idle
-    }
-    set Idle(value: number) {
-        this.___Idle_is_set = true
-        this.___Idle = value
-    }
-    
-    static Jumping: number
-    private ___Jumping_is_set: boolean
-    private ___Jumping: number
-    get Jumping(): number {
-        return this.___Jumping_is_set ? this.___Jumping : ActionKind.Jumping
-    }
-    set Jumping(value: number) {
-        this.___Jumping_is_set = true
-        this.___Jumping = value
-    }
-    
-    public static __initActionKind() {
-        ActionKind.Walking = 0
-        ActionKind.Idle = 1
-        ActionKind.Jumping = 2
-    }
-    
-}
+class ActionKind(Enum):
+    Walking = 0
+    Idle = 1
+    Jumping = 2
+@namespace
+class SpriteKind:
+    Gap = SpriteKind.create()
 
-ActionKind.__initActionKind()
-
-namespace SpriteKind {
-    export const Gap = SpriteKind.create()
-}
-
-controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function on_button_pressed() {
+def on_button_pressed():
     mySprite.vy = -100
-    animation.setAction(mySprite, ActionKind.Jumping)
-    mySprite.startEffect(effects.rings, 300)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Gap, function on_on_overlap(sprite: Sprite, otherSprite: Sprite) {
-    if (otherSprite.right - sprite.left < 2) {
-        info.changeScoreBy(1)
-    }
-    
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function on_on_overlap2(sprite2: Sprite, otherSprite2: Sprite) {
-    game.over(false)
-})
-let projectile : Sprite = null
-let gapSprite : Sprite = null
-let gapImage : Image = null
-let bottomImage : Image = null
-let topImage : Image = null
-let gap = 0
-let mySprite : Sprite = null
-scene.setBackgroundColor(9)
-info.setScore(0)
-effects.blizzard.startScreenEffect()
-mySprite = sprites.create(assets.image`
+    animation.set_action(mySprite, ActionKind.Jumping)
+    mySprite.start_effect(effects.rings, 300)
+controller.any_button.on_event(ControllerButtonEvent.PRESSED, on_button_pressed)
+
+def on_on_overlap(sprite, otherSprite):
+    if otherSprite.right - sprite.left < 2:
+        info.change_score_by(1)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Gap, on_on_overlap)
+
+def on_on_overlap2(sprite2, otherSprite2):
+    game.over(False)
+sprites.on_overlap(SpriteKind.player, SpriteKind.projectile, on_on_overlap2)
+
+projectile: Sprite = None
+gapSprite: Sprite = None
+gapImage: Image = None
+bottomImage: Image = None
+topImage: Image = None
+gap = 0
+mySprite: Sprite = None
+scene.set_background_color(9)
+info.set_score(0)
+effects.blizzard.start_screen_effect()
+mySprite = sprites.create(assets.image("""
     duck1
-`, SpriteKind.Player)
+"""), SpriteKind.player)
 mySprite.ay = 300
-let anim = animation.createAnimation(ActionKind.Jumping, 25)
-anim.addAnimationFrame(assets.image`
+anim = animation.create_animation(ActionKind.Jumping, 25)
+anim.add_animation_frame(assets.image("""
     duck2
-`)
-anim.addAnimationFrame(img`
+"""))
+anim.add_animation_frame(img("""
     . . . . . . . . . . . . . . . . 
         . . . . . . . . . . b 5 b . . . 
         . . . . . . . . . b 5 b . . . . 
@@ -95,14 +56,14 @@ anim.addAnimationFrame(img`
         . c d d d d d d 5 5 5 5 5 d b . 
         . . c b d d d d d 5 5 5 b b . . 
         . . . c c c c c c c c b b . . .
-`)
-anim.addAnimationFrame(assets.image`
+"""))
+anim.add_animation_frame(assets.image("""
     duck3
-`)
-anim.addAnimationFrame(assets.image`
+"""))
+anim.add_animation_frame(assets.image("""
     duck4
-`)
-anim.addAnimationFrame(img`
+"""))
+anim.add_animation_frame(img("""
     . . . . . . . . . . b 5 b . . . 
         . . . . . . . . . b 5 b . . . . 
         . . . . . . b b b b b b . . . . 
@@ -119,8 +80,8 @@ anim.addAnimationFrame(img`
         b b c c c d d d 5 5 5 5 5 d b . 
         . . . . c c d d d 5 5 5 b b . . 
         . . . . . . c c c c c b b . . .
-`)
-anim.addAnimationFrame(img`
+"""))
+anim.add_animation_frame(img("""
     . . . . . . . . . . b 5 b . . . 
         . . . . . . . . . b 5 b . . . . 
         . . . . . . b b b b b b . . . . 
@@ -137,23 +98,21 @@ anim.addAnimationFrame(img`
         . . c b d d d d d 5 5 5 b b . . 
         . . . c c c c c c c c b b . . . 
         . . . . . . . . . . . . . . . .
-`)
-animation.attachAnimation(mySprite, anim)
-game.onUpdate(function on_on_update() {
-    if (mySprite.vy > 0) {
-        animation.setAction(mySprite, ActionKind.Idle)
-    }
-    
-    if (mySprite.bottom > 120 || mySprite.top < 0) {
-        game.over(false)
-    }
-    
-})
-game.onUpdateInterval(1500, function on_update_interval() {
-    
+"""))
+animation.attach_animation(mySprite, anim)
+
+def on_on_update():
+    if mySprite.vy > 0:
+        animation.set_action(mySprite, ActionKind.Idle)
+    if mySprite.bottom > 120 or mySprite.top < 0:
+        game.over(False)
+game.on_update(on_on_update)
+
+def on_update_interval():
+    global gap, topImage, bottomImage, gapImage, gapSprite, projectile
     gap = randint(0, 3)
-    if (gap == 0) {
-        topImage = img`
+    if gap == 0:
+        topImage = img("""
             .....6eeeeeeeeeece6.....
                         ....6776eeeeeeeee676....
                         ...6776666eeee6766776...
@@ -170,8 +129,8 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ......beeeeeeeeeeb......
                         .......beeeeeeeeb.......
                         ........beeeeeeb........
-        `
-        bottomImage = img`
+        """)
+        bottomImage = img("""
             ........................
                         ........................
                         ..........bbbb..........
@@ -236,9 +195,9 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ...668cc7768867788666...
                         ......cc77cccc67cf......
                         ......cc6cccccc6cf......
-        `
-    } else if (gap == 1) {
-        topImage = img`
+        """)
+    elif gap == 1:
+        topImage = img("""
             .....6feeeeeeeeeef6.....
                         ....6776eeeeeeeee676....
                         ...6777666eeee6667776...
@@ -271,8 +230,8 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ........................
                         ........................
                         ........................
-        `
-        bottomImage = img`
+        """)
+        bottomImage = img("""
             ........................
                         ........................
                         ........................
@@ -329,9 +288,9 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ...668ce7768867788666...
                         ......ce77eeee67ee......
                         ......ce6eeeeee6ee......
-        `
-    } else if (gap == 2) {
-        topImage = img`
+        """)
+    elif gap == 2:
+        topImage = img("""
             .....6feeeeeeeeeef6.....
                         ....6776eeeeeeeee676....
                         ...6777666eeee6667776...
@@ -380,8 +339,8 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ........................
                         ........................
                         ........................
-        `
-        bottomImage = img`
+        """)
+        bottomImage = img("""
             ........................
                         ........................
                         ........................
@@ -422,9 +381,9 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ...668ee7768867788666...
                         ......ee77eeee67ee......
                         ......ee6eeeeee6ce......
-        `
-    } else {
-        topImage = img`
+        """)
+    else:
+        topImage = img("""
             .....6fceeeeeeeeee6.....
                         ....6776eeeeeeeee676....
                         ...6777666eeee6666776...
@@ -481,8 +440,8 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         .......beeeeeeeeb.......
                         ........beeeeeeb........
                         ........................
-        `
-        bottomImage = img`
+        """)
+        bottomImage = img("""
             ........................
                         ..........bbbb..........
                         ........bbddddbb........
@@ -507,18 +466,16 @@ game.onUpdateInterval(1500, function on_update_interval() {
                         ...668ee7768867788666...
                         ......ee77eeee77ecee....
                         ......ee6eeeeee6eef.....
-        `
-    }
-    
-    gapImage = image.create(2, scene.screenHeight())
+        """)
+    gapImage = image.create(2, scene.screen_height())
     gapImage.fill(1)
     gapSprite = sprites.create(gapImage, SpriteKind.Gap)
-    gapSprite.setFlag(SpriteFlag.AutoDestroy, true)
-    gapSprite.setFlag(SpriteFlag.Invisible, true)
-    gapSprite.left = scene.screenWidth()
+    gapSprite.set_flag(SpriteFlag.AUTO_DESTROY, True)
+    gapSprite.set_flag(SpriteFlag.INVISIBLE, True)
+    gapSprite.left = scene.screen_width()
     gapSprite.vx = -45
-    projectile = sprites.createProjectileFromSide(topImage, -45, 0)
+    projectile = sprites.create_projectile_from_side(topImage, -45, 0)
     projectile.top = 0
-    projectile = sprites.createProjectileFromSide(bottomImage, -45, 0)
-    projectile.bottom = scene.screenHeight()
-})
+    projectile = sprites.create_projectile_from_side(bottomImage, -45, 0)
+    projectile.bottom = scene.screen_height()
+game.on_update_interval(1500, on_update_interval)
